@@ -1,0 +1,32 @@
+; Top-most EditorConfig file
+root = true
+
+; Unix-style newlines
+#[*]
+#end_of_line = LF
+
+; 4-column tab indentation
+[*.cs]
+indent_style = tab
+indent_size = 4
+
+[*.xml]
+indent_style = tab
+indent_size = 4
+
+[*.config]
+indent_style = tab
+indent_size = 4
+
+[*.xml]
+indent_style = tab
+indent_size = 4
+
+; 2-column tab indentation
+[*.js]
+indent_style = tab
+indent_size = 4
+
+[*.html]
+indent_style = tab
+indent_size = 4
