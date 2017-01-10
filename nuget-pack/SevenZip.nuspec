@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>SevenZip</id>
+        <version>4.12.1</version>
+        <authors>SevenZip</authors>
+        <owners>SevenZip</owners>
+        <projectUrl>https://github.com/chrishaly/SevenZip</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>.Net SDK form 7zip, source original from http://www.7-zip.org/sdk.html, also in https://github.com/chrishaly/SevenZip</description>
+        <dependencies>
+            <group targetFramework=".NETStandard1.3">
+                <dependency id="NETStandard.Library" version="1.6.0" exclude="Build,Analyzers" />
+                <dependency id="System.Collections.NonGeneric" version="4.3.0" exclude="Build,Analyzers" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="..\src\SevenZip\bin\Release\net20\SevenZip.dll" target="lib\net20\SevenZip.dll" />
+        <file src="..\src\SevenZip\bin\Release\netstandard1.3\SevenZip.dll" target="lib\netstandard1.3\SevenZip.dll" />
+        <file src="pack-package.cmd" target="pack-package.cmd" />
+        <file src="publish-package.cmd" target="publish-package.cmd" />
+    </files>
+</package>
