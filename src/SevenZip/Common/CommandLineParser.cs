@@ -88,7 +88,7 @@ namespace SevenZip.CommandLineParser
 					if (switchLen <= maxLen || pos + switchLen > len)
 						continue;
 					if (String.Compare(switchForms[switchIndex].IDString, 0,
-							srcString, pos, switchLen, StringComparison.OrdinalIgnoreCase) == 0)
+							srcString, pos, switchLen, true) == 0)
 					{
 						matchedSwitchIndex = switchIndex;
 						maxLen = switchLen;

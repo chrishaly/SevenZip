@@ -1,5 +1,5 @@
 echo publishing %1
 
-nuget push %1 -Source https://www.nuget.org
+nuget push *.nupkg -Source https://www.nuget.org
 
 pause
