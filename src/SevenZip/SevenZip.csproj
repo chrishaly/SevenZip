@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net20</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net20</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
    <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.3' ">
@@ -10,11 +10,9 @@
     <DefineConstants>NETFX</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" />
     <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.3' ">
-    <PackageReference Include="NETStandard.Library" Version="1.6" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
   </ItemGroup>
 </Project>

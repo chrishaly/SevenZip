@@ -48,7 +48,7 @@ namespace SevenZip.Compression.RangeCoder
 
 		public void CloseStream()
 		{
-			Stream.Dispose();
+			Stream.Close();
 		}
 
 		public void Encode(uint start, uint size, uint total)
@@ -146,7 +146,7 @@ namespace SevenZip.Compression.RangeCoder
 
 		public void CloseStream()
 		{
-			Stream.Dispose();
+			Stream.Close();
 		}
 
 		public void Normalize()
