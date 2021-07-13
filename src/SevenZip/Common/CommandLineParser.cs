@@ -1,7 +1,7 @@
 // CommandLineParser.cs
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace SevenZip.CommandLineParser
 {
@@ -47,7 +47,7 @@ namespace SevenZip.CommandLineParser
 	{
 		public bool ThereIs;
 		public bool WithMinus;
-		public ArrayList PostStrings = new ArrayList();
+		public List<string> PostStrings = new List<string>();
 		public int PostCharIndex;
 		public SwitchResult()
 		{
@@ -57,7 +57,7 @@ namespace SevenZip.CommandLineParser
 
 	public class Parser
 	{
-		public ArrayList NonSwitchStrings = new ArrayList();
+		public List<string> NonSwitchStrings = new List<string>();
 		SwitchResult[] _switches;
 
 		public Parser(int numSwitches)
@@ -88,7 +88,7 @@ namespace SevenZip.CommandLineParser
 					if (switchLen <= maxLen || pos + switchLen > len)
 						continue;
 					if (String.Compare(switchForms[switchIndex].IDString, 0,
-							srcString, pos, switchLen, true) == 0)
+							srcString, pos, switchLen, StringComparison.OrdinalIgnoreCase) == 0)
 					{
 						matchedSwitchIndex = switchIndex;
 						maxLen = switchLen;
@@ -214,7 +214,7 @@ namespace SevenZip.CommandLineParser
 		}
 
 		static bool ParseSubCharsCommand(int numForms, CommandSubCharsSet[] forms,
-			string commandString, ArrayList indices)
+			string commandString, List<int> indices)
 		{
 			indices.Clear();
 			int numUsedChars = 0;
