@@ -2,9 +2,31 @@
 
 namespace SevenZip
 {
-	class CRC
+	public readonly struct CRC
 	{
 		public static readonly uint[] Table;
+
+		public CRC(bool _)
+		{
+			_value = 0xFFFFFFFF;
+		}
+
+		public CRC(byte[] data):
+			this(true)
+		{
+			_value = Update(data, 0, (uint)data.Length)._value;
+		}
+
+		public CRC(byte[] data, uint offset, uint size) :
+			this(true)
+		{
+			_value = Update(data, offset, size)._value;
+		}
+
+		private CRC(uint value)
+		{
+			_value = value;
+		}
 
 		static CRC()
 		{
@@ -22,34 +44,68 @@ namespace SevenZip
 			}
 		}
 
-		uint _value = 0xFFFFFFFF;
+		private readonly uint _value;
 
-		public void Init() { _value = 0xFFFFFFFF; }
+		public uint Digest => _value ^ 0xFFFFFFFF;
 
-		public void UpdateByte(byte b)
+		public CRC UpdateByte(byte b) => Update(b);
+
+		public CRC Update(byte b)
 		{
-			_value = Table[(((byte)(_value)) ^ b)] ^ (_value >> 8);
+			uint value = Table[unchecked((byte)(_value)) ^ b] ^ (_value >> 8);
+			return new CRC(value);
 		}
 
-		public void Update(byte[] data, uint offset, uint size)
+		public CRC Update(byte[] data, uint offset, uint size)
 		{
-			for (uint i = 0; i < size; i++)
-				_value = Table[(((byte)(_value)) ^ data[offset + i])] ^ (_value >> 8);
+			uint value = _value;
+			for (int i = 0; i < size; i++)
+			{
+				value = Table[unchecked((byte)(value)) ^ data[offset + i]] ^ (value >> 8);
+			}
+			return new CRC(value);
 		}
 
-		public uint GetDigest() { return _value ^ 0xFFFFFFFF; }
-
-		static uint CalculateDigest(byte[] data, uint offset, uint size)
+		public static uint CalculateDigest(byte[] data)
 		{
-			CRC crc = new CRC();
-			// crc.Init();
-			crc.Update(data, offset, size);
-			return crc.GetDigest();
+			return new CRC(data).Digest;
 		}
 
-		static bool VerifyDigest(uint digest, byte[] data, uint offset, uint size)
+		public static uint CalculateDigestAscii(string data)
+		{
+			CRC crc = new CRC(true);
+			for (int i = 0; i < data.Length; i++)
+			{
+				byte c = (byte)data[i];
+				crc = crc.Update(c);
+			}
+			return crc.Digest;
+		}
+
+		public static uint CalculateDigestUTF8(string data)
+		{
+			byte[] stringData = System.Text.Encoding.UTF8.GetBytes(data);
+			return new CRC(stringData).Digest;
+		}
+
+		public static uint CalculateDigest(byte[] data, uint offset, uint size)
+		{
+			return new CRC(data, offset, size).Digest;
+		}
+
+		public static bool VerifyDigest(uint digest, byte[] data, uint offset, uint size)
 		{
 			return (CalculateDigest(data, offset, size) == digest);
+		}
+
+		public static bool VerifyDigestUTF8(string data, uint digest)
+		{
+			return CalculateDigestUTF8(data) == digest;
+		}
+
+		public static bool Verify28DigestUTF8(string data, uint digest)
+		{
+			return (CalculateDigestUTF8(data) & 0xFFFFFFF) == digest;
 		}
 	}
 }
